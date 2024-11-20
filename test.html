@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Locatie Delen</title>
+</head>
+<body>
+    <h1>Locatie Delen</h1>
+    <p>Klik op de knop hieronder om je locatie te delen.</p>
+    <button onclick="getLocation()">Locatie delen</button>
+    <p id="status"></p>
+    <p id="location"></p>
+
+    <script>
+        function getLocation() {
+            const status = document.getElementById("status");
+            const location = document.getElementById("location");
+
+            if (navigator.geolocation) {
+                status.textContent = "Locatie ophalen...";
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        location.innerHTML = `Breedtegraad: ${lat} <br> Lengtegraad: ${lon}`;
+                        // Stuur de gegevens naar een server (optioneel)
+                        // fetch('https://example.com/locatie', {
+                        //     method: 'POST',
+                        //     headers: { 'Content-Type': 'application/json' },
+                        //     body: JSON.stringify({ latitude: lat, longitude: lon })
+                        // });
+                    },
+                    () => {
+                        status.textContent = "Toestemming geweigerd of locatie niet beschikbaar.";
+                    }
+                );
+            } else {
+                status.textContent = "Geolocatie wordt niet ondersteund door deze browser.";
+            }
+        }
+    </script>
+</body>
+</html>
